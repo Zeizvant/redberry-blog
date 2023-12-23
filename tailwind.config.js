@@ -18,7 +18,12 @@ module.exports = {
         'main-background': '#F3F2FA',
       },
       padding: {
+        '07': '7px',
+        15: '15px',
         76: '76px',
+      },
+      width: {
+        684: '684px',
       },
       spacing: {
         200: '200px',
@@ -28,6 +33,9 @@ module.exports = {
       },
       borderWidth: {
         1: '1px',
+      },
+      borderRadius: {
+        30: '30px',
       },
       backgroundImage: {
         'main-bg': 'url(/src/assets/main-background.png)',

@@ -1,4 +1,5 @@
 import { NavBar } from 'components/NavBar';
+import { CategoryList } from './components/CategoryList';
 
 export const BlogListing = () => {
   return (
@@ -10,7 +11,7 @@ export const BlogListing = () => {
             ბლოგი
           </h1>
         </div>
-        <div className='pt-16'>section</div>
+        <CategoryList />
       </div>
     </div>
   );
