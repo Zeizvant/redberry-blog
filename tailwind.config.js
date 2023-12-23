@@ -6,17 +6,31 @@ module.exports = {
       fontFamily: {
         'fira-go': ['FiraGO', 'sans-serif'],
       },
+      fontSize: {
+        64: '64px',
+      },
       colors: {
         'button-background-main': '#5D37F3',
         'button-background-main-hover': '#512BE7',
         'button-background-main-active': '#4721DD',
         'navbar-border': '#E4E3EB',
+        'main-text': '#1A1A1F',
+        'main-background': '#F3F2FA',
       },
       padding: {
         76: '76px',
       },
+      spacing: {
+        200: '200px',
+      },
+      maxWidth: {
+        1440: '1440px',
+      },
       borderWidth: {
         1: '1px',
+      },
+      backgroundImage: {
+        'main-bg': 'url(/src/assets/main-background.png)',
       },
     },
   },
