@@ -14,3 +14,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.main-button{
+  @apply bg-button-background-main text-white rounded-lg text-sm font-fira-go cursor-pointer hover:bg-button-background-main-hover active:bg-button-background-main-active;
+}
