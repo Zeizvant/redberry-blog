@@ -8,3 +8,12 @@ export const AllCategoriesRequest = async () => {
     },
   });
 };
+
+export const Login = async (email) => {
+  return await instance.post('login', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    email: email,
+  });
+};

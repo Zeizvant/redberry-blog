@@ -42,7 +42,7 @@ export const CategoryList = () => {
 
   return (
     <div className='pt-16 w-full flex justify-center'>
-      <div className='flex w-684 overflow-scroll gap-6 pb-4'>
+      <div className='flex w-684 overflow-scroll gap-6 pb-4 font-medium'>
         {categories.map((category) => (
           <div
             key={category.id}

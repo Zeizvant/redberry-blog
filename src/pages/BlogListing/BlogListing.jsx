@@ -1,5 +1,6 @@
 import { NavBar } from 'components/NavBar';
 import { CategoryList } from './components/CategoryList';
+import { BlogList } from './components/BlogList';
 
 export const BlogListing = () => {
   return (
@@ -12,6 +13,9 @@ export const BlogListing = () => {
           </h1>
         </div>
         <CategoryList />
+      </div>
+      <div className='w-full px-76 bg-main-background pt-16'>
+        <BlogList />
       </div>
     </div>
   );
