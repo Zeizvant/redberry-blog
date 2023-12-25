@@ -1,5 +1,4 @@
 import mainLogo from 'assets/main-logo.svg';
-import closeButton from 'assets/close.svg';
 import { useContext, useEffect, useState } from 'react';
 import { LoginModal } from './LoginModal';
 import { Context } from 'state/Context';
