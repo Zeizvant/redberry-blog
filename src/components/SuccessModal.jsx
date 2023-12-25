@@ -27,7 +27,10 @@ export const SuccessModal = ({ success, handleSuccess }) => {
         </p>
         <div
           className='cursor-pointer font-medium bg-button-background-main rounded-xl flex justify-center align-center font-sm text-white py-2.5 mb-5'
-          onClick={() => changeLoggedIn(true)}
+          onClick={() => {
+            handleSuccess();
+            changeLoggedIn(true);
+          }}
         >
           კარგი
         </div>
