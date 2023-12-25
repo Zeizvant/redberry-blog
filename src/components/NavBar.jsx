@@ -22,9 +22,13 @@ export const NavBar = () => {
 
   return (
     <div className='w-full flex px-76 h-20 items-center justify-between border-solid border-b-1 border-navbar-border'>
-      <img src={mainLogo} alt='main logo' />
+      <a href={'/'}>
+        <img src={mainLogo} alt='main logo' />
+      </a>
       {loggedIn ? (
-        <div className='main-button px-5 py-2.5'>დაამატე ბლოგი</div>
+        <a href={'/add'} className='main-button px-5 py-2.5'>
+          დაამატე ბლოგი
+        </a>
       ) : (
         <div className='main-button px-5 py-2.5' onClick={handleModalClick}>
           შესვლა
