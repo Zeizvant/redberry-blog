@@ -94,3 +94,9 @@ export const validateAuthor = (author, authorErrorsObject) => {
 
   return authorErrorsObject;
 };
+
+export const clearLocalStorage = (list) => {
+  list.map((item) => {
+    localStorage.removeItem(item);
+  });
+};

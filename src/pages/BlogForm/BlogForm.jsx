@@ -9,6 +9,7 @@ import arrowDown from 'assets/arrow-down.svg';
 import close from 'assets/x.svg';
 import {
   allValid,
+  clearLocalStorage,
   validateAuthor,
   validateCategories,
   validateDate,
@@ -17,7 +18,8 @@ import {
   validatePhoto,
   validateUploadEmail,
 } from './helpers';
-import { AllCategoriesRequest } from 'services';
+import { AllCategoriesRequest, upload } from 'services';
+import { UploadModalSuccess } from './components/UploadModalSuccess';
 
 export const BlogForm = () => {
   const navigate = useNavigate();
@@ -61,6 +63,7 @@ export const BlogForm = () => {
   const [photoValid, setPhotoValid] = useState(null);
   const [photoErrors, setPhotoErrors] = useState({ required: null });
   const [ready, setReady] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (loggedIn === false) {
@@ -149,7 +152,7 @@ export const BlogForm = () => {
       const errors = validateUploadEmail(email, emailErrorsObject);
       setEmailErrors((prev) => ({ ...prev, ...errors }));
     } else {
-      setEmailErrors({ requiredOrGeo: false });
+      setEmailErrors({ requiredOrGeo: null });
     }
   }, []);
 
@@ -317,19 +320,13 @@ export const BlogForm = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
       setSelectedPhotoName(file.name);
       localStorage.setItem('selectedPhotoName', file.name);
-
-      reader.onloadend = () => {
-        localStorage.setItem('selectedPhoto', reader.result);
-        setSelectedPhoto(reader.result);
-        const photoErrorsObject = photoErrors;
-        const errors = validatePhoto(reader.result, photoErrorsObject);
-        setPhotoErrors((prev) => ({ ...prev, ...errors }));
-      };
-
-      reader.readAsDataURL(file);
+      localStorage.setItem('selectedPhoto', file);
+      setSelectedPhoto(file);
+      const photoErrorsObject = photoErrors;
+      const errors = validatePhoto(file, photoErrorsObject);
+      setPhotoErrors((prev) => ({ ...prev, ...errors }));
     }
   };
 
@@ -425,7 +422,6 @@ export const BlogForm = () => {
       emailValid,
     ]);
     if (ready) {
-      console.log(ready);
       setReady(true);
     } else {
       setReady(false);
@@ -440,7 +436,53 @@ export const BlogForm = () => {
     emailValid,
   ]);
 
-  // const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append('image', selectedPhoto);
+    formData.append('title', header);
+    formData.append('description', description);
+    formData.append('author', author);
+    formData.append('publish_date', date);
+    formData.append(
+      'categories',
+      JSON.stringify(selectedCategories.map((c) => c.id)),
+    );
+    formData.append('email', email);
+    if (ready) {
+      upload(formData)
+        .then(() => {
+          console.log('successfully uploaded');
+          setOpenModal(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleModal = () => {
+    setOpenModal(false);
+  };
+
+  const clear = () => {
+    clearLocalStorage([
+      'date',
+      'authorValid',
+      'categoriesValid',
+      'selectedCategories',
+      'dateValid',
+      'description',
+      'selectedPhoto',
+      'headerValid',
+      'uploadEmail',
+      'emailValid',
+      'author',
+      'header',
+      'photoValid',
+      'descriptionValid',
+      'selectedPhotoName',
+    ]);
+  };
 
   return (
     <div>
@@ -450,6 +492,7 @@ export const BlogForm = () => {
           src={redberry}
           alt='redberry logo'
           onClick={() => {
+            clear();
             navigate('/');
           }}
         />
@@ -463,6 +506,7 @@ export const BlogForm = () => {
           fill='none'
           className='cursor-pointer'
           onClick={() => {
+            clear();
             navigate('/');
           }}
         >
@@ -508,6 +552,7 @@ export const BlogForm = () => {
                         <input
                           onChange={handleFileChange}
                           id='file-upload'
+                          accept='image/*'
                           name='file-upload'
                           type='file'
                           class='sr-only'
@@ -849,12 +894,22 @@ export const BlogForm = () => {
               className={
                 ready ? 'upload-button-active' : 'upload-button-disabled'
               }
+              onClick={() => {
+                handleSubmit();
+              }}
             >
               გამოქვეყნება
             </div>
           </div>
         </div>
       </div>
+      {openModal && (
+        <UploadModalSuccess
+          open={openModal}
+          closeModal={handleModal}
+          clear={clear}
+        />
+      )}
     </div>
   );
 };

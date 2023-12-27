@@ -71,7 +71,7 @@ table {
 }
 
 .modal-block{
-	@apply w-full absolute bg-[#1a1a1f3d] top-0 left-0 h-full flex justify-center items-center
+	@apply w-full fixed bg-[#1a1a1f3d] top-0 left-0 h-full flex justify-center items-center overscroll-none
 }
 .modal-hidden{
 	@apply w-full absolute bg-[#1a1a1f3d] top-0 left-0 h-full hidden

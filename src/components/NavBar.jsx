@@ -40,8 +40,9 @@ export const NavBar = () => {
           შესვლა
         </div>
       )}
-
-      <LoginModal openModal={openModal} handleModalClick={handleModalClick} />
+      {openModal && (
+        <LoginModal openModal={openModal} handleModalClick={handleModalClick} />
+      )}
     </div>
   );
 };
