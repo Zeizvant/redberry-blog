@@ -22,6 +22,13 @@ export const LoginModal = ({ openModal, handleModalClick }) => {
   }, []);
 
   useEffect(() => {
+    openModal && document.body.classList.add('overflow-hidden');
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
+
+  useEffect(() => {
     const email = localStorage.getItem('login_email');
     if (email) {
       setEmail(email);

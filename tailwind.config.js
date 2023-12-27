@@ -23,18 +23,30 @@ module.exports = {
         'input-bg': '#F7F7FF',
         'error-text-color': '#EA1919',
         'error-inout-background': '#FAF2F3',
+        'file-upload': '#F4F3FF',
+      },
+      boxShadow: {
+        modal: '2px 4px 8px 0 rgba(0, 0, 0, 0.08)',
       },
       padding: {
         '07': '7px',
         15: '15px',
         76: '76px',
       },
+      margin: {
+        '16vw': '16vw',
+        '33vw': '33vw',
+      },
       width: {
+        225: '225px',
+        288: '288px',
         408: '408px',
         480: '480px',
+        600: '600px',
         684: '684px',
       },
       height: {
+        124: '124px',
         300: '300px',
         328: '328px',
         272: '272px',
@@ -45,6 +57,9 @@ module.exports = {
       maxWidth: {
         1440: '1440px',
       },
+      fontSize: {
+        32: '32px',
+      },
       borderWidth: {
         1: '1px',
         1.5: '1.5px',
@@ -54,6 +69,9 @@ module.exports = {
       },
       backgroundImage: {
         'main-bg': 'url(/src/assets/main-background.png)',
+      },
+      gap: {
+        '16vw': '16.6vw',
       },
     },
   },

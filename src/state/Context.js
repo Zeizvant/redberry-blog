@@ -1,15 +1,21 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export const Context = createContext();
 
+export const useAuth = () => {
+  return useContext(Context);
+};
+
 export const MyProvider = ({ children }) => {
   const [buttonClicked, setButtonClicked] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState('');
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('loggedIn');
     if (loggedIn) {
       loggedIn === 'true' ? setLoggedIn(true) : setLoggedIn(false);
+    } else {
+      setLoggedIn(false);
     }
   }, []);
 

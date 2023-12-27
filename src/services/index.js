@@ -1,4 +1,4 @@
-import instance from './axios';
+import instance, { uploadIntance } from './axios';
 import { token } from './axios';
 
 export const AllCategoriesRequest = async () => {
@@ -15,5 +15,13 @@ export const Login = async (email) => {
       Authorization: `Bearer ${token}`,
     },
     email: email,
+  });
+};
+
+export const upload = async (data) => {
+  return await uploadIntance.post('blogs', data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 };

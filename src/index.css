@@ -71,7 +71,7 @@ table {
 }
 
 .modal-block{
-	@apply w-full absolute bg-[#1a1a1f3d] top-0 left-0 h-full flex justify-center items-center
+	@apply w-full fixed bg-[#1a1a1f3d] top-0 left-0 h-full flex justify-center items-center overscroll-none
 }
 .modal-hidden{
 	@apply w-full absolute bg-[#1a1a1f3d] top-0 left-0 h-full hidden
@@ -81,5 +81,47 @@ table {
 	@apply outline-none rounded-xl px-4 py-3 bg-input-bg border-solid border-1.5 border-button-background-main mb-6 font-normal font-fira-go
 }
 .login-input-error{
-	@apply outline-none rounded-xl px-4 py-3 bg-error-inout-background border-solid border-1.5 border-error-text-color mb-6 font-normal
+	@apply outline-none rounded-xl px-4 py-3 bg-error-inout-background border-solid border-1.5 border-error-text-color mb-6 font-normal 
+}
+
+.input{
+	@apply w-full outline-none rounded-xl px-4 py-3 bg-input-bg border-solid border-1 border-[#E4E3EB] font-normal font-fira-go focus:border-button-background-main
+}
+.input-error{
+	@apply w-full outline-none rounded-xl px-4 py-3 bg-[#FAF2F3] border-solid border-1 border-error-text-color font-normal font-fira-go focus:border-button-background-main focus:bg-input-bg
+}
+.input-green{
+	@apply w-full outline-none rounded-xl px-4 py-3 bg-[#F8FFF8] border-solid border-1 border-[#14D81C] font-normal font-fira-go focus:border-button-background-main focus:bg-input-bg
+}
+
+.error-text-grey{
+	@apply text-xs font-normal text-[#85858D]
+}
+.error-text-red{
+	@apply text-xs font-normal text-[#EA1919]
+}
+.error-text-green{
+	@apply text-xs font-normal text-[#14D81C]
+}
+.categories-drop-down-opened{
+	@apply left-0 relative w-288 p-4 bg-white shadow-modal rounded-xl flex flex-wrap p-4 gap-2
+}
+.categories-drop-down-closed{
+	@apply left-0 -bottom-9 hidden w-288 p-4 bg-white shadow-modal rounded-xl
+}
+
+.categories-div{
+	@apply flex items-center font-medium justify-between w-full outline-none rounded-xl px-4 bg-input-bg border-solid border-1 border-[#E4E3EB] font-normal font-fira-go focus:border-button-background-main box-border h-11;
+}
+.categories-div-red{
+	@apply flex items-center font-medium justify-between w-full outline-none rounded-xl px-4 bg-[#FAF2F3] border-solid border-1 border-error-text-color font-normal font-fira-go focus:border-button-background-main focus:bg-input-bg box-border h-11
+}
+.categories-div-green{
+	@apply flex items-center font-medium justify-between w-full outline-none rounded-xl px-4 bg-[#F8FFF8] border-solid border-1 border-[#14D81C] font-normal font-fira-go focus:border-button-background-main focus:bg-input-bg box-border h-11
+}
+.upload-button-active{
+	@apply w-288 cursor-pointer font-medium bg-button-background-main rounded-xl flex justify-center text-sm text-white py-2.5 mb-5
+}
+.upload-button-disabled{
+	@apply w-288 cursor-pointer font-medium bg-[#E4E3EB] rounded-xl flex justify-center text-sm text-white py-2.5 mb-5
 }

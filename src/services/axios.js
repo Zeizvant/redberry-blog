@@ -11,4 +11,12 @@ const instance = axios.create({
   },
 });
 
+export const uploadIntance = axios.create({
+  baseURL: 'https://api.blog.redberryinternship.ge/api/',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
 export default instance;

@@ -1,13 +1,7 @@
-import { BlogListing } from 'pages/BlogListing/BlogListing';
 import { MyProvider } from 'state/Context';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import './App.css';
-import { BlogForm } from 'pages/BlogForm/BlogForm';
-
-const router = createBrowserRouter([
-  { path: '/', element: <BlogListing /> },
-  { path: '/add', element: <BlogForm /> },
-]);
+import { router } from 'routes/root';
 
 function App() {
   return (
