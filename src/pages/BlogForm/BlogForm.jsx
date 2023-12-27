@@ -1,18 +1,66 @@
 import redberry from 'assets/main-logo.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from 'state/Context';
 import fileUpload from 'assets/folder-add.svg';
 import gallery from 'assets/gallery.svg';
 import closeButton from 'assets/close.svg';
+import arrowDown from 'assets/arrow-down.svg';
+import close from 'assets/x.svg';
+import {
+  allValid,
+  validateAuthor,
+  validateCategories,
+  validateDate,
+  validateDescription,
+  validateHeader,
+  validatePhoto,
+  validateUploadEmail,
+} from './helpers';
+import { AllCategoriesRequest } from 'services';
 
 export const BlogForm = () => {
   const navigate = useNavigate();
+  const first = useRef(true);
   const { loggedIn } = useContext(Context);
   const [selectedPhoto, setSelectedPhoto] = useState('');
   const [selectedPhotoName, setSelectedPhotoName] = useState('');
-
-  console.log(selectedPhoto);
+  const [author, setAuthor] = useState('');
+  const [authorErrors, setAuthorErrors] = useState({
+    minFour: null,
+    minTwoWords: null,
+    onlyGeo: null,
+    required: null,
+  });
+  const [header, setHeader] = useState('');
+  const [headerErrors, setHeaderErrors] = useState({
+    minTwo: null,
+  });
+  const [description, setDescription] = useState('');
+  const [descriptionErrors, setDescriptionErros] = useState({
+    minTwo: null,
+  });
+  const [date, setDate] = useState('');
+  const [dateErrors, setDateErrors] = useState({ required: null });
+  const [authorValid, setAuthorValid] = useState(null);
+  const [headerValid, setHeaderValid] = useState(null);
+  const [descriptionValid, setDescriptionValid] = useState(null);
+  const [dateValid, setDateValid] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [openCategories, setOpenCategories] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategoriesErrors, setSelectedCategoriesErrors] = useState({
+    required: null,
+  });
+  const [categoriesValid, setCategoriesValid] = useState(null);
+  const [email, setEmail] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
+  const [emailErrors, setEmailErrors] = useState({
+    requiredOrGeo: null,
+  });
+  const [photoValid, setPhotoValid] = useState(null);
+  const [photoErrors, setPhotoErrors] = useState({ required: null });
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (loggedIn === false) {
@@ -27,13 +75,243 @@ export const BlogForm = () => {
       setSelectedPhoto(image);
       setSelectedPhotoName(name);
     }
+
+    const author = localStorage.getItem('author');
+    if (author) {
+      setAuthor(author);
+    }
   }, []);
+
+  useEffect(() => {
+    const email = localStorage.getItem('uploadEmail');
+    if (email) {
+      setEmail(email);
+    }
+  }, []);
+
+  useEffect(() => {
+    const selectedCategories = JSON.parse(
+      localStorage.getItem('selectedCategories'),
+    );
+    if (selectedCategories) {
+      setSelectedCategories(selectedCategories);
+    }
+  }, []);
+
+  useEffect(() => {
+    const header = localStorage.getItem('header');
+    if (header) {
+      setHeader(header);
+    }
+  }, []);
+
+  useEffect(() => {
+    const description = localStorage.getItem('description');
+    if (description) {
+      setDescription(description);
+    }
+  }, []);
+
+  useEffect(() => {
+    const date = localStorage.getItem('date');
+    if (date) {
+      setDate(date);
+    }
+  }, []);
+
+  useEffect(() => {
+    const categories = JSON.parse(localStorage.getItem('selectedCategories'));
+    if (categories) {
+      setSelectedCategories(categories);
+    }
+  }, []);
+
+  useEffect(() => {
+    const authorErrorsObject = authorErrors;
+    const author = localStorage.getItem('author');
+    if (author !== null) {
+      const errors = validateAuthor(author, authorErrorsObject);
+      setAuthorErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setAuthorErrors({
+        minFour: null,
+        minTwoWords: null,
+        onlyGeo: null,
+        required: null,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const emailErrorsObject = emailErrors;
+    const email = localStorage.getItem('uploadEmail');
+    if (email !== null) {
+      const errors = validateUploadEmail(email, emailErrorsObject);
+      setEmailErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setEmailErrors({ requiredOrGeo: false });
+    }
+  }, []);
+
+  useEffect(() => {
+    const descriptionErrorsObject = descriptionErrors;
+    const description = localStorage.getItem('description');
+    if (description !== null) {
+      const errors = validateDescription(description, descriptionErrorsObject);
+      setDescriptionErros((prev) => ({ ...prev, ...errors }));
+    } else {
+      setDescriptionErros({ minTwo: null });
+    }
+  }, []);
+
+  useEffect(() => {
+    const headerErrorsObject = headerErrors;
+    const header = localStorage.getItem('header');
+    if (header !== null) {
+      const errors = validateHeader(header, headerErrorsObject);
+      setHeaderErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setHeaderErrors({ minTwo: null });
+    }
+  }, []);
+
+  useEffect(() => {
+    const dateErrorsObject = dateErrors;
+    const date = localStorage.getItem('date');
+    if (date !== null) {
+      const errors = validateDate(date, dateErrorsObject);
+      setDateErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setDateErrors({ required: null });
+    }
+  }, []);
+
+  useEffect(() => {
+    const photoErrorsObject = photoErrors;
+    const photo = localStorage.getItem('selectedPhoto');
+    if (photo !== null) {
+      const errors = validatePhoto(photo, photoErrorsObject);
+      setPhotoErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setPhotoErrors({ required: null });
+    }
+  }, []);
+
+  useEffect(() => {
+    const categoriesErrorsObject = selectedCategoriesErrors;
+    const categoriesData = JSON.parse(
+      localStorage.getItem('selectedCategories'),
+    );
+    if (categoriesData !== null) {
+      const errors = validateCategories(categoriesData, categoriesErrorsObject);
+      setSelectedCategoriesErrors((prev) => ({ ...prev, ...errors }));
+    } else {
+      setSelectedCategoriesErrors({ required: null });
+    }
+  }, []);
+
+  useEffect(() => {
+    for (const key in authorErrors) {
+      if (authorErrors[key] === null) {
+        setAuthorValid(null);
+        localStorage.setItem('authorValid', false);
+        return;
+      } else if (!authorErrors[key]) {
+        continue;
+      } else {
+        setAuthorValid(false);
+        localStorage.setItem('authorValid', false);
+        return;
+      }
+    }
+    setAuthorValid(true);
+    localStorage.setItem('authorValid', true);
+  }, [authorErrors]);
+
+  useEffect(() => {
+    if (headerErrors['minTwo'] === null) {
+      setHeaderValid(null);
+      localStorage.setItem('headerValid', false);
+    } else if (!headerErrors['minTwo']) {
+      setHeaderValid(true);
+      localStorage.setItem('headerValid', true);
+    } else {
+      setHeaderValid(false);
+      localStorage.setItem('headerValid', false);
+    }
+  }, [headerErrors]);
+
+  useEffect(() => {
+    if (emailErrors['requiredOrGeo'] === null) {
+      setEmailValid(null);
+      localStorage.setItem('emailValid', false);
+    } else if (!emailErrors['requiredOrGeo']) {
+      setEmailValid(true);
+      localStorage.setItem('emailValid', true);
+    } else {
+      setEmailValid(false);
+      localStorage.setItem('emailValid', false);
+    }
+  }, [emailErrors]);
+
+  useEffect(() => {
+    if (descriptionErrors['minTwo'] === null) {
+      setDescriptionValid(null);
+      localStorage.setItem('descriptionValid', false);
+    } else if (!descriptionErrors['minTwo']) {
+      setDescriptionValid(true);
+      localStorage.setItem('descriptionValid', true);
+    } else {
+      setDescriptionValid(false);
+      localStorage.setItem('descriptionValid', false);
+    }
+  }, [descriptionErrors]);
+
+  useEffect(() => {
+    if (dateErrors['required'] === null) {
+      setDateValid(null);
+      localStorage.setItem('dateValid', false);
+    } else if (!dateErrors['required']) {
+      setDateValid(true);
+      localStorage.setItem('dateValid', true);
+    } else {
+      setDateValid(false);
+      localStorage.setItem('dateValid', false);
+    }
+  }, [dateErrors]);
+
+  useEffect(() => {
+    if (photoErrors['required'] === null) {
+      setPhotoValid(null);
+      localStorage.setItem('photoValid', false);
+    } else if (!photoErrors['required']) {
+      setPhotoValid(true);
+      localStorage.setItem('photoValid', true);
+    } else {
+      setPhotoValid(false);
+      localStorage.setItem('photoValid', false);
+    }
+  }, [photoErrors]);
+
+  useEffect(() => {
+    if (selectedCategoriesErrors['required'] === null) {
+      setCategoriesValid(null);
+      localStorage.setItem('categoriesValid', false);
+    } else if (!selectedCategoriesErrors['required']) {
+      setCategoriesValid(true);
+      localStorage.setItem('categoriesValid', true);
+    } else {
+      setCategoriesValid(false);
+      localStorage.setItem('categoriesValid', false);
+    }
+  }, [selectedCategoriesErrors]);
 
   const deletePhoto = () => {
     setSelectedPhoto('');
     setSelectedPhotoName('');
     localStorage.removeItem('selectedPhoto');
     localStorage.removeItem('selectedPhotoName');
+    setPhotoErrors((prev) => ({ ...prev, required: true }));
   };
 
   const handleFileChange = (event) => {
@@ -46,11 +324,123 @@ export const BlogForm = () => {
       reader.onloadend = () => {
         localStorage.setItem('selectedPhoto', reader.result);
         setSelectedPhoto(reader.result);
+        const photoErrorsObject = photoErrors;
+        const errors = validatePhoto(reader.result, photoErrorsObject);
+        setPhotoErrors((prev) => ({ ...prev, ...errors }));
       };
 
       reader.readAsDataURL(file);
     }
   };
+
+  const handleHeaderChange = (header) => {
+    setHeader(header);
+    localStorage.setItem('header', header);
+    const headerErrorsObject = headerErrors;
+    const errors = validateHeader(header, headerErrorsObject);
+    setHeaderErrors((prev) => ({ ...prev, ...errors }));
+  };
+
+  const handleAuthorChange = (author) => {
+    setAuthor(author);
+    localStorage.setItem('author', author);
+    const authorErrorsObject = authorErrors;
+    const errors = validateAuthor(author, authorErrorsObject);
+    setAuthorErrors((prev) => ({ ...prev, ...errors }));
+  };
+
+  const handleDescriptionChange = (description) => {
+    setDescription(description);
+    localStorage.setItem('description', description);
+    const descriptionErrorsObject = descriptionErrors;
+    const errors = validateDescription(description, descriptionErrorsObject);
+    setDescriptionErros((prev) => ({ ...prev, errors }));
+  };
+
+  const handleDateChange = (date) => {
+    setDate(date);
+    localStorage.setItem('date', date);
+    const dateErrorsObject = dateErrors;
+    const errors = validateDate(date, dateErrorsObject);
+    setDateErrors((prev) => ({ ...prev, ...errors }));
+  };
+
+  const handleEmailChange = (email) => {
+    setEmail(email);
+    localStorage.setItem('uploadEmail', email);
+    const emailErrorsObject = emailErrors;
+    const errors = validateUploadEmail(email, emailErrorsObject);
+    setEmailErrors((prev) => ({ ...prev, ...errors }));
+  };
+
+  const handleSelectedCategories = (category) => {
+    if (!selectedCategories.find((c) => c.id === category.id)) {
+      const newCategories = [...selectedCategories, category];
+      setSelectedCategories(newCategories);
+      localStorage.setItem('selectedCategories', JSON.stringify(newCategories));
+      const categoriesErrorsObject = selectedCategoriesErrors;
+      const errors = validateCategories(newCategories, categoriesErrorsObject);
+      setSelectedCategoriesErrors((prev) => ({ ...prev, ...errors }));
+    }
+  };
+  const handleDeleteCategory = (category) => {
+    const filteredCategories = selectedCategories.filter((c) => {
+      return c.id !== category.id;
+    });
+    setSelectedCategories(filteredCategories);
+    localStorage.setItem(
+      'selectedCategories',
+      JSON.stringify(filteredCategories),
+    );
+    const categoriesErrorsObject = selectedCategoriesErrors;
+    const errors = validateCategories(
+      filteredCategories,
+      categoriesErrorsObject,
+    );
+    setSelectedCategoriesErrors((prev) => ({ ...prev, ...errors }));
+  };
+
+  useEffect(() => {
+    AllCategoriesRequest()
+      .then((response) => {
+        setCategories(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleCategoriesDropDown = () => {
+    setOpenCategories(!openCategories);
+  };
+
+  useEffect(() => {
+    const ready = allValid([
+      photoValid,
+      authorValid,
+      headerValid,
+      descriptionValid,
+      dateValid,
+      categoriesValid,
+      emailValid,
+    ]);
+    if (ready) {
+      console.log(ready);
+      setReady(true);
+    } else {
+      setReady(false);
+    }
+  }, [
+    photoValid,
+    authorValid,
+    headerValid,
+    descriptionValid,
+    dateValid,
+    categoriesValid,
+    emailValid,
+  ]);
+
+  // const handleSubmit = () => {};
 
   return (
     <div>
@@ -108,11 +498,11 @@ export const BlogForm = () => {
                       aria-hidden='true'
                       alt=''
                     />
-                    <div class='w-full mt-4 font-normal flex text-sm leading-6 text-gray-600 gap-1 aling-center'>
-                      <p class='pl-1'>ჩააგდეთ ფაილი აქ ან</p>
+                    <div class='w-full mt-4 font-normal flex text-sm leading-6 text-gray-600 gap-1 aling-center bg-file-upload'>
+                      <p class='pl-1 bg-file-upload'>ჩააგდეთ ფაილი აქ ან</p>
                       <label
                         for='file-upload'
-                        class='relative cursor-pointer bg-white font-semibold text-black underline'
+                        class='relative cursor-pointer font-semibold text-black underline bg-file-upload'
                       >
                         <span>აირჩიეთ ფაილი</span>
                         <input
@@ -128,7 +518,7 @@ export const BlogForm = () => {
                 </div>
               </div>
             ) : (
-              <div className='w-full h-14 rounded-xl bg-[#F2F2FA] flex justify-between items-center p-4'>
+              <div className='w-full h-14 rounded-xl mb-6 bg-[#F2F2FA] flex justify-between items-center p-4'>
                 <div className='flex gap-3 items-center'>
                   <img src={gallery} alt='uploaded photo' />
                   <p>{selectedPhotoName}</p>
@@ -156,25 +546,89 @@ export const BlogForm = () => {
                   name='author'
                   id='author'
                   type='text'
-                  className='input mb-2'
+                  value={author}
+                  className={
+                    authorValid == null
+                      ? 'input mb-2'
+                      : authorValid
+                        ? 'input-green mb-2'
+                        : 'input-error mb-2'
+                  }
                   placeholder='შეიყვნეთ ავტორი'
+                  onChange={(event) => {
+                    handleAuthorChange(event.target.value);
+                  }}
                 />
                 <div className='flex flex-col'>
                   <div className='flex items-start pl-2 gap-2'>
-                    <span className='text-[#85858D]'>&#x2022;</span>
-                    <p className='text-[#85858D] text-xs font-normal'>
+                    <span
+                      className={
+                        authorErrors.minFour == null
+                          ? 'text-[#85858D]'
+                          : authorErrors.minFour
+                            ? 'text-[#85858D]'
+                            : 'text-[#14D81C]'
+                      }
+                    >
+                      &#x2022;
+                    </span>
+                    <p
+                      className={
+                        authorErrors.minFour == null
+                          ? 'error-text-grey'
+                          : authorErrors.minFour
+                            ? 'error-text-red'
+                            : 'error-text-green'
+                      }
+                    >
                       მინიმუმ 4 სიმბოლო
                     </p>
                   </div>
                   <div className='flex items-start pl-2 gap-2'>
-                    <span className='text-[#85858D]'>&#x2022;</span>
-                    <p className='text-[#85858D] text-xs font-normal'>
+                    <span
+                      className={
+                        authorErrors.minTwoWords == null
+                          ? 'text-[#85858D]'
+                          : authorErrors.minTwoWords
+                            ? 'text-[#85858D]'
+                            : 'text-[#14D81C]'
+                      }
+                    >
+                      &#x2022;
+                    </span>
+                    <p
+                      className={
+                        authorErrors.minTwoWords == null
+                          ? 'error-text-grey'
+                          : authorErrors.minTwoWords
+                            ? 'error-text-red'
+                            : 'error-text-green'
+                      }
+                    >
                       მინიმუმ ორი სიტყვა
                     </p>
                   </div>
                   <div className='flex items-start pl-2 gap-2'>
-                    <span className='text-[#85858D]'>&#x2022;</span>
-                    <p className='text-[#85858D] text-xs font-normal'>
+                    <span
+                      className={
+                        authorErrors.onlyGeo == null
+                          ? 'text-[#85858D]'
+                          : authorErrors.onlyGeo
+                            ? 'text-[#85858D]'
+                            : 'text-[#14D81C]'
+                      }
+                    >
+                      &#x2022;
+                    </span>
+                    <p
+                      className={
+                        authorErrors.onlyGeo == null
+                          ? 'error-text-grey'
+                          : authorErrors.onlyGeo
+                            ? 'error-text-red'
+                            : 'error-text-green'
+                      }
+                    >
                       მხოლოდ ქართული სიმბოლოები
                     </p>
                   </div>
@@ -191,11 +645,27 @@ export const BlogForm = () => {
                   name='header'
                   id='header'
                   type='text'
-                  className='input mb-2'
+                  value={header}
+                  onChange={(event) => handleHeaderChange(event.target.value)}
+                  className={
+                    headerValid == null
+                      ? 'input mb-2'
+                      : headerValid
+                        ? 'input-green mb-2'
+                        : 'input-error mb-2'
+                  }
                   placeholder='შეიყვნეთ სათაური'
                 />
                 <div className='flex flex-col'>
-                  <p className='text-[#85858D] text-xs font-normal'>
+                  <p
+                    className={
+                      headerErrors.minTwo == null
+                        ? 'error-text-grey'
+                        : headerErrors.minTwo
+                          ? 'error-text-red'
+                          : 'error-text-green'
+                    }
+                  >
                     მინიმუმ 2 სიმბოლო
                   </p>
                 </div>
@@ -212,10 +682,28 @@ export const BlogForm = () => {
                 id='description'
                 name='description'
                 type='text'
-                className='input mb-2 h-124 resize-none'
+                value={description}
+                className={
+                  descriptionValid == null
+                    ? 'input mb-2 h-124 resize-none'
+                    : descriptionValid
+                      ? 'input-green mb-2 h-124 resize-none'
+                      : 'input-error mb-2 h-124 resize-none'
+                }
+                onChange={(event) =>
+                  handleDescriptionChange(event.target.value)
+                }
                 placeholder='შეიყვნეთ აღწერა'
               />
-              <p className='text-[#85858D] text-xs font-normal'>
+              <p
+                className={
+                  descriptionErrors.minTwo == null
+                    ? 'error-text-grey'
+                    : descriptionErrors.minTwo
+                      ? 'error-text-red'
+                      : 'error-text-green'
+                }
+              >
                 მინიმუმ 2 სიმბოლო
               </p>
             </div>
@@ -229,25 +717,105 @@ export const BlogForm = () => {
                 </label>
                 <input
                   id='date'
+                  value={date}
+                  onChange={(event) => {
+                    handleDateChange(event.target.value);
+                  }}
                   name='date'
                   type='date'
-                  className='input mb-2'
+                  className={
+                    dateValid == null
+                      ? 'input mb-2'
+                      : dateValid
+                        ? 'input-green mb-2'
+                        : 'input-error mb-2'
+                  }
                 />
               </div>
-              <div className='flex flex-col w-288'>
+              <div className='flex flex-col w-288 relative'>
                 <label
                   for='categories'
                   class='block text-sm font-medium leading-6 text-gray-900 pb-2'
                 >
                   კატეგორია *
                 </label>
-                <input
-                  name='categories'
-                  id='categories'
-                  type='text'
-                  className='input mb-2'
-                  placeholder='შეიყვნეთ სათაური'
-                />
+                <div
+                  className={
+                    categoriesValid == null
+                      ? 'categories-div'
+                      : categoriesValid
+                        ? 'categories-div-green'
+                        : 'categories-div-red'
+                  }
+                >
+                  <div className='flex h-min '>
+                    {selectedCategories.length === 0 ? (
+                      <p className='text-[#1A1A1F] text-sm font-normal'>
+                        აირჩიეთ კატეგორია
+                      </p>
+                    ) : (
+                      <div className='w-225 flex gap-2 overflow-x-scroll'>
+                        {selectedCategories.map((category) => (
+                          <div
+                            key={category.id}
+                            style={{
+                              backgroundColor: `${category.background_color}`,
+                              color: category.text_color,
+                            }}
+                            className='category-button w-min flex gap-2'
+                          >
+                            <p>{category.title}</p>
+                            <img
+                              className='pr-2'
+                              src={close}
+                              alt=''
+                              onClick={() => {
+                                handleDeleteCategory(category);
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <img
+                    className='cursor-pointer p-1'
+                    src={arrowDown}
+                    alt=''
+                    onClick={handleCategoriesDropDown}
+                  />
+                </div>
+                <div
+                  className={
+                    openCategories
+                      ? 'categories-drop-down-opened'
+                      : 'categories-drop-down-closed'
+                  }
+                >
+                  {categories.map((category) => (
+                    <div
+                      key={category.id}
+                      style={{
+                        backgroundColor: selectedCategories.find(
+                          (c) => c.id === category.id,
+                        )
+                          ? `${category.background_color}`
+                          : `${category.background_color}50`,
+                        color: selectedCategories.find(
+                          (c) => c.id === category.id,
+                        )
+                          ? `${category.text_color}`
+                          : `${category.background_color}`,
+                      }}
+                      onClick={() => {
+                        handleSelectedCategories(category);
+                      }}
+                      className='category-button w-min'
+                    >
+                      {category.title}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             <div className='w-full flex flex-col mb-6'>
@@ -261,13 +829,27 @@ export const BlogForm = () => {
                 id='mail'
                 name='mail'
                 type='text'
-                className='input mb-2'
+                value={email}
+                onChange={(event) => {
+                  handleEmailChange(event.target.value);
+                }}
+                className={
+                  emailValid == null
+                    ? 'input mb-2'
+                    : emailValid
+                      ? 'input-green mb-2'
+                      : 'input-error mb-2'
+                }
                 placeholder='Example@redberry.ge'
               />
             </div>
           </form>
           <div className='w-full flex justify-end'>
-            <div className='w-288 cursor-pointer font-medium bg-button-background-main rounded-xl flex justify-center align-center font-sm text-white py-2.5 mb-5'>
+            <div
+              className={
+                ready ? 'upload-button-active' : 'upload-button-disabled'
+              }
+            >
               გამოქვეყნება
             </div>
           </div>

@@ -25,6 +25,9 @@ module.exports = {
         'error-inout-background': '#FAF2F3',
         'file-upload': '#F4F3FF',
       },
+      boxShadow: {
+        modal: '2px 4px 8px 0 rgba(0, 0, 0, 0.08)',
+      },
       padding: {
         '07': '7px',
         15: '15px',
@@ -35,6 +38,7 @@ module.exports = {
         '33vw': '33vw',
       },
       width: {
+        225: '225px',
         288: '288px',
         408: '408px',
         480: '480px',
