@@ -7,7 +7,11 @@ function App() {
   return (
     <div className='App'>
       <MyProvider>
-        <RouterProvider router={router} forceRefresh={true} />
+        <RouterProvider
+          basename='redberry-blog'
+          router={router}
+          forceRefresh={true}
+        />
       </MyProvider>
     </div>
   );
