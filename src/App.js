@@ -8,7 +8,7 @@ function App() {
     <div className='App'>
       <MyProvider>
         <RouterProvider
-          basename='/redberry-blog'
+          basename='/redberry-blog/#'
           router={router}
           forceRefresh={true}
         />
