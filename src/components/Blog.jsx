@@ -38,7 +38,7 @@ export const Blog = ({
       </p>
       <div
         onClick={() => {
-          navigate(`/blogs/${id}`, { relative: 'path' });
+          navigate(`/blogs/${id}`);
         }}
         className='pt-2 flex align-center gap-1 font-medium text-sm cursor-pointer'
       >
