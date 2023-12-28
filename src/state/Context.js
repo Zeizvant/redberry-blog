@@ -19,8 +19,17 @@ export const MyProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const buttonClicked = localStorage.getItem('buttonClicked');
+    if (buttonClicked) {
+      console.log(buttonClicked);
+      setButtonClicked(JSON.parse(buttonClicked));
+    }
+  }, []);
+
   const changeButtonClicked = (state) => {
     setButtonClicked(state);
+    localStorage.setItem('buttonClicked', JSON.stringify(state));
   };
 
   const changeLoggedIn = (state) => {

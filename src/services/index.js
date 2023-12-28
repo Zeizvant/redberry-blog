@@ -1,8 +1,16 @@
 import instance, { uploadIntance } from './axios';
 import { token } from './axios';
 
-export const AllCategoriesRequest = async () => {
+export const allCategoriesRequest = async () => {
   return await instance.get('categories', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const allBlogsRequest = async () => {
+  return await instance.get('blogs', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

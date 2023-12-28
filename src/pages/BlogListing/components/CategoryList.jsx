@@ -1,15 +1,14 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { AllCategoriesRequest } from 'services';
+import { allCategoriesRequest } from 'services';
 import { Context } from 'state/Context';
 
 export const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [buttonClicked, setButtonClicked] = useState([]);
   const firstUpdate = useRef(true);
-  const { changeButtonClicked } = useContext(Context);
+  const { buttonClicked, changeButtonClicked } = useContext(Context);
 
   useEffect(() => {
-    AllCategoriesRequest()
+    allCategoriesRequest()
       .then((response) => {
         setCategories(response.data.data);
       })
@@ -18,25 +17,11 @@ export const CategoryList = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      const clicked = JSON.parse(localStorage.getItem('buttonClicked'));
-      if (clicked) {
-        setButtonClicked(clicked);
-        changeButtonClicked(buttonClicked);
-      }
-    } else {
-      localStorage.setItem('buttonClicked', JSON.stringify(buttonClicked));
-      changeButtonClicked(buttonClicked);
-    }
-  }, [buttonClicked]);
-
   const handleCategoryClick = (title) => {
     if (buttonClicked.includes(title)) {
-      setButtonClicked(buttonClicked.filter((cat) => cat != title));
+      changeButtonClicked(buttonClicked.filter((cat) => cat != title));
     } else {
-      setButtonClicked([...buttonClicked, title]);
+      changeButtonClicked([...buttonClicked, title]);
     }
   };
 
@@ -47,8 +32,8 @@ export const CategoryList = () => {
           <div
             key={category.id}
             style={{
-              backgroundColor: `${category.background_color}50`,
-              color: category.text_color,
+              color: category.background_color,
+              backgroundColor: `${category.background_color}20`,
             }}
             className={
               buttonClicked.includes(category.title)
