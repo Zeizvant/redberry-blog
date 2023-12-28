@@ -6,9 +6,6 @@ module.exports = {
       fontFamily: {
         'fira-go': ['FiraGO', 'sans-serif'],
       },
-      fontSize: {
-        64: '64px',
-      },
       colors: {
         'button-background-main': '#5D37F3',
         'button-background-main-hover': '#512BE7',
@@ -44,6 +41,7 @@ module.exports = {
         480: '480px',
         600: '600px',
         684: '684px',
+        720: '720px',
       },
       height: {
         124: '124px',

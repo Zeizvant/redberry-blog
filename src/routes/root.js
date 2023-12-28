@@ -1,6 +1,4 @@
 import { BlogPage } from 'pages/BlogPage/BlogPage';
-import { useContext } from 'react';
-import { Context } from 'state/Context';
 
 const { BlogForm } = require('pages/BlogForm/BlogForm');
 const { BlogListing } = require('pages/BlogListing/BlogListing');
