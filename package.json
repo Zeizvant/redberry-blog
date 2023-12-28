@@ -1,6 +1,6 @@
 {
   "name": "redberry-blog",
-  "homepage" :  "https://zeizvant.github.io/redberry-blog/",
+  "homepage" :  "https://zeizvant.github.io/redberry-blog",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
