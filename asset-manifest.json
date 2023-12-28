@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/redberry-blog/static/css/main.a8cb3d6d.css",
+    "main.js": "/redberry-blog/static/js/main.ad6acda4.js",
+    "static/media/main-logo.svg": "/redberry-blog/static/media/main-logo.448ea4dcfd2b76dd11010adf92c77bd2.svg",
+    "static/media/main-background.png": "/redberry-blog/static/media/main-background.2d4f0ebc3037d569ebfa.png",
+    "static/media/slick.svg": "/redberry-blog/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/redberry-blog/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/redberry-blog/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/redberry-blog/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/folder-add.svg": "/redberry-blog/static/media/folder-add.aeb8ec3496327aa90408cbeac7d2da19.svg",
+    "static/media/gallery.svg": "/redberry-blog/static/media/gallery.2a968e2ef63b62ecee1b139667561a81.svg",
+    "index.html": "/redberry-blog/index.html",
+    "static/media/more.svg": "/redberry-blog/static/media/more.7c11c1189779dff69f8f7adefc64a1c7.svg",
+    "static/media/input-error.svg": "/redberry-blog/static/media/input-error.c5601834ace4e4a9b80d9c10e25e7645.svg",
+    "static/media/tick-circle.svg": "/redberry-blog/static/media/tick-circle.035d0a2ec4e3fc2987c5b1aaf0082dc1.svg",
+    "static/media/close.svg": "/redberry-blog/static/media/close.e2f9879561070043e49ccc94f5e4ce86.svg",
+    "static/media/x.svg": "/redberry-blog/static/media/x.b19e73aec67120027806682aeb7b1bc0.svg",
+    "static/media/arrow-down.svg": "/redberry-blog/static/media/arrow-down.837fbbb706d434a449beda3ad18834ed.svg",
+    "main.a8cb3d6d.css.map": "/redberry-blog/static/css/main.a8cb3d6d.css.map",
+    "main.ad6acda4.js.map": "/redberry-blog/static/js/main.ad6acda4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a8cb3d6d.css",
+    "static/js/main.ad6acda4.js"
+  ]
+}
