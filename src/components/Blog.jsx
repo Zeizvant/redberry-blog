@@ -1,4 +1,3 @@
-import TestImg from 'assets/test-blog.png';
 import More from 'assets/more.svg';
 import { useNavigate } from 'react-router';
 
@@ -13,15 +12,16 @@ export const Blog = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <div className='flex justify-self-start w-408 flex-col gap-2'>
-      <img src={image} className='rounded-xl w-408 h-328 object-cover' />
+    <div className='flex justify-self-start w-408 flex-col gap-2 font-fira-go'>
+      <img src={image} className='rounded-xl w-408 h-328 object-cover' alt='' />
       <p className='text-blog-p pt-4'>{author}</p>
       <p className='text-xs font-normal text-gray-date'>{date}</p>
       <p className='text-xl text-blog-p font-medium pt-2'>{title}</p>
-      <div className='flex gap-4 pt-4 pb-4 overflow-scroll w-408 text-nowrap'>
+      <div className="flex gap-4 pt-4 pb-4 overflow-scroll w-408 text-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'">
         {categories.map((category) => {
           return (
             <div
+              key={category.id}
               style={{
                 color: category.background_color,
                 backgroundColor: `${category.background_color}20`,
@@ -36,14 +36,14 @@ export const Blog = ({
       <p className='text-blog-paragraph font-normal leading-7 h-14'>
         {description}
       </p>
-      <div className='pt-2 flex align-center gap-1 font-medium text-sm cursor-pointer'>
-        <p
-          className='text-more-button'
-          onClick={() => {
-            navigate(`/blogs/${id}`);
-          }}
-        >
-          სრულად ნახვა
+      <div
+        onClick={() => {
+          navigate(`/blogs/${id}`, { relative: 'path' });
+        }}
+        className='pt-2 flex align-center gap-1 font-medium text-sm cursor-pointer'
+      >
+        <p className='text-more-button'>
+          <p>სრულად ნახვა</p>
         </p>
         <img src={More} />
       </div>

@@ -33,3 +33,11 @@ export const upload = async (data) => {
     },
   });
 };
+
+export const getBlogsRequest = async (id) => {
+  return await instance.get(`blogs/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

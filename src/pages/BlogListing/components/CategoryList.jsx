@@ -27,7 +27,7 @@ export const CategoryList = () => {
 
   return (
     <div className='pt-16 w-full flex justify-center'>
-      <div className='flex w-684 overflow-scroll gap-6 pb-4 font-medium'>
+      <div className="flex w-684 overflow-scroll gap-6 pb-4 font-medium [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'">
         {categories.map((category) => (
           <div
             key={category.id}

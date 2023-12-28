@@ -12,26 +12,11 @@ export const BlogList = () => {
     allBlogsRequest()
       .then((response) => {
         setBlogs(response.data.data);
-        filterData();
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-  const filterData = () => {
-    let filtered = [];
-    if (buttonClicked.length === 0) {
-      filtered = [...blogs];
-    } else {
-      filtered = blogs.filter((blog) => {
-        return blog.categories.some((category) => {
-          return buttonClicked.includes(category.title);
-        });
-      });
-    }
-    setFilteredBlogs(filtered);
-  };
+  }, [buttonClicked]);
 
   useEffect(() => {
     let filtered = [];
@@ -48,21 +33,44 @@ export const BlogList = () => {
   }, [buttonClicked]);
 
   return (
-    <div className='grid grid-cols-3 font-fira-go w-full gap-y-14 pb-14'>
-      {filteredBlogs.map((blog) => {
-        return (
-          <Blog
-            key={blog.id}
-            id={blog.id}
-            author={blog.author}
-            date={blog.date}
-            title={blog.title}
-            categories={blog.categories}
-            description={blog.description}
-            image={blog.image}
-          />
-        );
-      })}
-    </div>
+    filteredBlogs && (
+      <div className='grid grid-cols-3 font-fira-go w-full gap-y-14 pb-14'>
+        {buttonClicked.length !== 0
+          ? blogs
+              .filter((blog) => {
+                return blog.categories.some((category) => {
+                  return buttonClicked.includes(category.title);
+                });
+              })
+              .map((blog) => {
+                return (
+                  <Blog
+                    key={blog.id}
+                    id={blog.id}
+                    author={blog.author}
+                    date={blog.date}
+                    title={blog.title}
+                    categories={blog.categories}
+                    description={blog.description}
+                    image={blog.image}
+                  />
+                );
+              })
+          : blogs.map((blog) => {
+              return (
+                <Blog
+                  key={blog.id}
+                  id={blog.id}
+                  author={blog.author}
+                  date={blog.date}
+                  title={blog.title}
+                  categories={blog.categories}
+                  description={blog.description}
+                  image={blog.image}
+                />
+              );
+            })}
+      </div>
+    )
   );
 };

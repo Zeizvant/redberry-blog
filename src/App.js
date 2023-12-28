@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='App'>
       <MyProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} forceRefresh={true} />
       </MyProvider>
     </div>
   );
