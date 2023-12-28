@@ -1,3 +1,4 @@
+import { BlogPage } from 'pages/BlogPage/BlogPage';
 import { useContext } from 'react';
 import { Context } from 'state/Context';
 
@@ -10,6 +11,10 @@ export const router = createBrowserRouter([
   {
     path: '/add',
     element: <BlogForm />,
+  },
+  {
+    path: '/blogs/:id',
+    element: <BlogPage />,
   },
   { path: '*', element: <Navigate to='/' /> },
 ]);

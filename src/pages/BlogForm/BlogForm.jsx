@@ -18,7 +18,7 @@ import {
   validatePhoto,
   validateUploadEmail,
 } from './helpers';
-import { AllCategoriesRequest, upload } from 'services';
+import { allCategoriesRequest, upload } from 'services';
 import { UploadModalSuccess } from './components/UploadModalSuccess';
 
 export const BlogForm = () => {
@@ -398,7 +398,7 @@ export const BlogForm = () => {
   };
 
   useEffect(() => {
-    AllCategoriesRequest()
+    allCategoriesRequest()
       .then((response) => {
         setCategories(response.data.data);
       })
