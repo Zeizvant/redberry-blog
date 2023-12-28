@@ -32,9 +32,14 @@ export const NavBar = () => {
         }}
       />
       {loggedIn ? (
-        <a href={'/add'} className='main-button px-5 py-2.5'>
+        <div
+          className='main-button px-5 py-2.5'
+          onClick={() => {
+            navigate('/add');
+          }}
+        >
           დაამატე ბლოგი
-        </a>
+        </div>
       ) : (
         <div className='main-button px-5 py-2.5' onClick={handleModalClick}>
           შესვლა

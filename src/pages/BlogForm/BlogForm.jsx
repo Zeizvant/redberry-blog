@@ -799,7 +799,7 @@ export const BlogForm = () => {
                         აირჩიეთ კატეგორია
                       </p>
                     ) : (
-                      <div className='w-225 flex gap-2 overflow-x-scroll'>
+                      <div className="w-225 flex gap-2 overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'">
                         {selectedCategories.map((category) => (
                           <div
                             key={category.id}
