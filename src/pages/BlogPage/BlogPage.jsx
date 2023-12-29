@@ -69,7 +69,7 @@ export const BlogPage = () => {
               {blog.author}
             </h3>
             <p className='font-normal text-xs text-[#85858D] mt-2'>
-              {blog.publish_date} &#x2022; {blog.email}
+              {blog.publish_date.replace(/-/g, '.')} &#x2022; {blog.email}
             </p>
             <p className='font-bold text-[#1A1A1F] text-3xl mt-6'>
               {blog.title}
@@ -105,6 +105,7 @@ export const BlogPage = () => {
             items={blogs.filter((item) => {
               return (
                 item.id != blog.id &&
+                new Date(item.publish_date) < new Date() &&
                 blog.categories.some((category) => {
                   return item.categories.some((c) => {
                     return c.title == category.title;

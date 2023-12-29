@@ -71,6 +71,9 @@ module.exports = {
       gap: {
         '16vw': '16.6vw',
       },
+      gridAutoColumns: {
+        '2fr': 'minmax(0, 408px)',
+      },
     },
   },
   plugins: [],
