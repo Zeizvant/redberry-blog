@@ -1,3 +1,3 @@
 Redberry Bootcamp assignment
 
-project link: zeizvant.github.io/redberry-blog/
+[Project link ](https://zeizvant.github.io/redberry-blog/)
