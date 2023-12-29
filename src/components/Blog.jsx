@@ -15,8 +15,12 @@ export const Blog = ({
     <div className='flex justify-self-start w-408 flex-col gap-2 font-fira-go'>
       <img src={image} className='rounded-xl w-408 h-328 object-cover' alt='' />
       <p className='text-blog-p pt-4'>{author}</p>
-      <p className='text-xs font-normal text-gray-date'>{date}</p>
-      <p className='text-xl text-blog-p font-medium pt-2'>{title}</p>
+      <p className='text-xs font-normal text-gray-date'>
+        {date.replace(/-/g, '.')}
+      </p>
+      <p className="text-xl h-12 text-blog-p font-medium pt-2 text-nowrap overflow-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'">
+        {title}
+      </p>
       <div className="flex gap-4 pt-4 pb-4 overflow-scroll w-408 text-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'">
         {categories.map((category) => {
           return (
@@ -33,7 +37,7 @@ export const Blog = ({
           );
         })}
       </div>
-      <p className='text-blog-paragraph font-normal leading-7 h-14'>
+      <p className='text-blog-paragraph font-normal leading-7 h-14 text-more'>
         {description}
       </p>
       <div

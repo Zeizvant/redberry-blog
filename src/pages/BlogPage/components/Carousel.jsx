@@ -18,8 +18,6 @@ export const Carousel = ({ items }) => {
     prevArrow: <PrevArrow />,
   };
 
-  console.log(items);
-
   return (
     <Slider {...settings} className='pt-10 pb-20'>
       {items.map((blog) => (

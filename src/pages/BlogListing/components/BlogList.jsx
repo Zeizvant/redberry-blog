@@ -34,12 +34,15 @@ export const BlogList = () => {
 
   return (
     filteredBlogs && (
-      <div className='grid grid-cols-3 font-fira-go w-full gap-y-14 pb-14'>
+      <div className='grid grid-container font-fira-go w-full gap-y-14 pb-14 justify-between'>
         {buttonClicked.length !== 0
           ? blogs
               .filter((blog) => {
                 return blog.categories.some((category) => {
-                  return buttonClicked.includes(category.title);
+                  return (
+                    buttonClicked.includes(category.title) &&
+                    new Date(blog.publish_date) < new Date()
+                  );
                 });
               })
               .map((blog) => {
@@ -48,7 +51,7 @@ export const BlogList = () => {
                     key={blog.id}
                     id={blog.id}
                     author={blog.author}
-                    date={blog.date}
+                    date={blog.publish_date}
                     title={blog.title}
                     categories={blog.categories}
                     description={blog.description}
@@ -56,20 +59,24 @@ export const BlogList = () => {
                   />
                 );
               })
-          : blogs.map((blog) => {
-              return (
-                <Blog
-                  key={blog.id}
-                  id={blog.id}
-                  author={blog.author}
-                  date={blog.date}
-                  title={blog.title}
-                  categories={blog.categories}
-                  description={blog.description}
-                  image={blog.image}
-                />
-              );
-            })}
+          : blogs
+              .filter((blog) => {
+                return new Date(blog.publish_date) < new Date();
+              })
+              .map((blog) => {
+                return (
+                  <Blog
+                    key={blog.id}
+                    id={blog.id}
+                    author={blog.author}
+                    date={blog.publish_date}
+                    title={blog.title}
+                    categories={blog.categories}
+                    description={blog.description}
+                    image={blog.image}
+                  />
+                );
+              })}
       </div>
     )
   );

@@ -127,3 +127,16 @@ table {
 .upload-button-disabled{
 	@apply w-288 cursor-pointer font-medium bg-[#E4E3EB] rounded-xl flex justify-center text-sm text-white py-2.5 mb-5
 }
+
+.grid-container{
+	grid-template-columns: 408px 408px 408px;
+}
+
+.text-more{
+	display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
